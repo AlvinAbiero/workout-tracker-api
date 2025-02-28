@@ -70,7 +70,7 @@ export class ExerciseService {
     }
   }
 
-  static async getExerciseByMuscleGroup(muscleGroupId: number) {
+  static async getExercisesByMuscleGroup(muscleGroupId: number) {
     try {
       return await ExerciseModel.findById(muscleGroupId);
     } catch (error) {
