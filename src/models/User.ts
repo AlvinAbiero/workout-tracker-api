@@ -58,7 +58,7 @@ export class UserModel {
     return result.rows[0] || null;
   }
 
-  static async findByusername(username: string) {
+  static async findByUsername(username: string) {
     const query = "SELECT * FROM users WHERE username = $1";
     const result = await pool.query(query, [username]);
 
