@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
 
+
 export const authenticate = (
   req: Request,
   res: Response,
