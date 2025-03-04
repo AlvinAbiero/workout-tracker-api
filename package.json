@@ -19,6 +19,7 @@
     "express-validator": "^7.2.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "pg": "^8.13.3",
     "pg-pool": "^3.7.1"
   },
@@ -28,6 +29,7 @@
     "@types/express": "^5.0.0",
     "@types/express-validator": "^2.20.33",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^22.13.5",
     "@types/pg": "^8.11.11",
     "@types/supertest": "^6.0.2",
