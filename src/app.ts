@@ -18,7 +18,7 @@ app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({ status: "UP", message: "Server is running" });
 });
 
-app.use(routes);
+app.use('/api',routes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {

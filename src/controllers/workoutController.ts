@@ -137,7 +137,7 @@ export const removeExerciseFromWorkout = catchAsync(
 export const scheduleWorkout = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.user!.id;
-    const { workout_plan_id, scheduled_date } = req.body;
+    const { workout_plan_id, scheduled_date, comments } = req.body;
     const scheduledWorkout = await WorkoutService.scheduleWorkout({
       user_id: userId,
       workout_plan_id,
