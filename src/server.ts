@@ -1,8 +1,9 @@
 import app from "./app";
 import pool from "./config/database";
 import { seedDatabase } from "./seeders";
+import config from "./config/config";
 
-const PORT = 3000;
+const PORT = config.PORT;
 
 async function checkDbConnection() {
   try {
@@ -26,7 +27,7 @@ async function startServer() {
     }
 
     // Seed the database if in development mode
-    if (process.env.NODE_ENV === "development") {
+    if (config.NODE_ENV === "development") {
       try {
         await seedDatabase();
         console.log("Database seeded successfully");
@@ -37,9 +38,7 @@ async function startServer() {
 
     // Start the server
     app.listen(PORT, () => {
-      console.log(
-        `Server running on port ${PORT} in ${process.env.NODE_ENV} mode`
-      );
+      console.log(`Server running on port ${PORT} in ${config.NODE_ENV} mode`);
       console.log(
         `API Documentation available at http://localhost:${PORT}/api-docs`
       );
@@ -54,7 +53,7 @@ async function startServer() {
 process.on("unhandledRejection", (error) => {
   console.error("Unhandled Rejection:", error);
   // Don't exit in production, just log the error
-  if (process.env.NODE_ENV !== "production") {
+  if (config.NODE_ENV !== "production") {
     process.exit(1);
   }
 });

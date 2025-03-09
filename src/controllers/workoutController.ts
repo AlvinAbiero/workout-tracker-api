@@ -39,7 +39,7 @@ export const getUserWorkoutPlans = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.user!.id;
 
-    const workoutPlans = await WorkoutService.getUserWorkoutPlans(userId);
+    const workoutPlans = await WorkoutService.getuserWorkoutPlans(userId);
 
     res.status(200).json({
       success: true,
@@ -205,92 +205,117 @@ export const getUpcomingWorkouts = catchAsync(
   }
 );
 
-
 export const updatedScheduledWorkout = catchAsync(
-  async (req: Request, res; Response) => {
+  async (req: Request, res: Response) => {
     const userId = req.user!.id;
     const id = parseInt(req.params.id);
-    const {scheduled_date, status} = req.body;
+    const { scheduled_date, status } = req.body;
 
-    const scheduledWorkout = await WorkoutService.updateScheduledWorkout(id, userId, {
-      scheduled_date: scheduled_date ? new Date(scheduled_date) : undefined,
-      status,
-    })
+    const scheduledWorkout = await WorkoutService.updateScheduledWorkout(
+      id,
+      userId,
+      {
+        scheduled_date: scheduled_date ? new Date(scheduled_date) : undefined,
+        status,
+      }
+    );
 
     res.status(200).json({
       success: true,
-      message: 'Scheduled workout updated successfully',
-      data: scheduledWorkout
-    })
+      message: "Scheduled workout updated successfully",
+      data: scheduledWorkout,
+    });
   }
-)
+);
 
-export const completeWorkout = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user!.id;
-  const id = parseInt(req.params.id);
-  const {completed_date, comments} = req.body;
+export const completeWorkout = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const id = parseInt(req.params.id);
+    const { completed_date, comments } = req.body;
 
-  const completedWorkout = await WorkoutService.completeWorkout(
-    id,
-    userId,
-    new Date(completed_date || new Date()),
-    comments
-  );
+    const completedWorkout = await WorkoutService.completeWorkout(
+      id,
+      userId,
+      new Date(completed_date || new Date()),
+      comments
+    );
 
-  res.status(200).json({
-    success: true,
-    message: 'Workout completed successfully',
-    data: completedWorkout
-  })
-})
+    res.status(200).json({
+      success: true,
+      message: "Workout completed successfully",
+      data: completedWorkout,
+    });
+  }
+);
 
-export const deleteScheduledWorkout = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user!.id;
-  const id = parseInt(req.params.id);
+export const deleteScheduledWorkout = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const id = parseInt(req.params.id);
 
-  await WorkoutService.deleteScheduledWorkout(id, userId)
+    await WorkoutService.deleteScheduledWorkout(id, userId);
 
-  res.status(200).json({
-    success: true,
-    message: 'Scheduled workout deleted successfully'
-  })
-})
+    res.status(200).json({
+      success: true,
+      message: "Scheduled workout deleted successfully",
+    });
+  }
+);
 
 // Workout Log Controllers
-export const logWorkoutExercise = catchAsync(async (req: Request, res: Response) => {
-  const {scheduled_workout_id, exercise_id, sets, reps, weight, notes} = req.body
+export const logWorkoutExercise = catchAsync(
+  async (req: Request, res: Response) => {
+    const { scheduled_workout_id, exercise_id, sets, reps, weight, notes } =
+      req.body;
 
-  const workoutLog = await WorkoutService.logWorkoutExercise({
-    scheduled_workout_id, exercise_id, sets, reps, weight, notes
-  })
+    const workoutLog = await WorkoutService.logWorkoutExercise({
+      scheduled_workout_id,
+      exercise_id,
+      sets,
+      reps,
+      weight,
+      notes,
+    });
 
-  res.status(201).json({
-    success: true,
-    message: 'Exercise logged successfully',
-    data: workoutLog
-  })
-})
+    res.status(201).json({
+      success: true,
+      message: "Exercise logged successfully",
+      data: workoutLog,
+    });
+  }
+);
 
-export const getWorkouts = catchAsync(async (req: Request, res: Response) => {
-  const userid = req.user!.id;
-  const scheduledWorkoutId = parseInt(req.params.scheduledWorkoutId);
+export const getWorkoutLogs = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const scheduledWorkoutId = parseInt(req.params.scheduledWorkoutId);
 
-  const workoutLogs = await WorkoutService.getWorkoutLogs(scheduledWorkoutId, userId);
+    const workoutLogs = await WorkoutService.getWorkoutLogs(
+      scheduledWorkoutId,
+      userId
+    );
 
-  res.status(200).json({
-    success: true,
-    data: workoutLogs
-  })
-})
+    res.status(200).json({
+      success: true,
+      data: workoutLogs,
+    });
+  }
+);
 
-export const getCompletedWorkoutWithLogs = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.user!.id;
-  const workoutId = parseInt(req.params.workoutId);
+export const getCompletedWorkoutWithLogs = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user!.id;
+    const workoutId = parseInt(req.params.workoutId);
 
-  const workoutWithLogs = await WorkoutService.getCompletedWorkoutWithLogs(workoutId, userId);
+    const workoutWithLogs = await WorkoutService.getCompletedWorkoutWithLogs(
+      workoutId,
+      userId
+    );
 
-  res.status(200).json({
-    success: true,
-    data: workoutWithLogs
-  })
-})
+    res.status(200).json({
+      success: true,
+      data: workoutWithLogs,
+    });
+  }
+);
