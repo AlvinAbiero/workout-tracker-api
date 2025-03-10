@@ -44,5 +44,85 @@ describe("Workout Plans Controller", () => {
     await pool.end();
   });
 
-  describe("POST /api/workouts/plans", () => {});
+  describe("POST /api/workouts/plans", () => {
+    it("should create a new workout plan", async () => {
+      const response = await request(app)
+        .post("/api/workouts/plans")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({
+          name: "Full Body Workout",
+          description: "A comprehensive full body workout plan",
+          exercise: [
+            {
+              exercise_id: exerciseId,
+              sets: 3,
+              reps: 12,
+              weight: 50,
+              notes: "Moderate intensity",
+              order_index: 1,
+            },
+          ],
+        });
+
+      expect(response.statusCode).toBe(201);
+      expect(response.body).toHaveProperty("id");
+      expect(response.body.name).toBe("Full Body Workout");
+
+      workoutPlanId = response.body.id;
+    });
+
+    it("should return 400 for invalid workout plan data", async () => {
+      const response = await request(app)
+        .post("/api/workouts/plans")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({
+          // Missing  required fields
+          description: "Invalid workout plan",
+        });
+
+      expect(response.statusCode).toBe(400);
+    });
+  });
+
+  describe("GET /api/workouts/plans", () => {
+    it("should retrieve user's workout plans", async () => {
+      const response = await request(app)
+        .get("/api/workouts/api")
+        .set("Authorization", `Bearer ${authToken}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(Array.isArray(response.body));
+    });
+
+    it("should retrieve a specific workout plan", async () => {
+      const response = await request(app)
+        .get(`/api/workouts/plans/${workoutPlanId}`)
+        .set("Authorization", `Bearer ${authToken}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body.id).toBe(workoutPlanId);
+      expect(response.body).toHaveProperty("exercises");
+    });
+  });
+
+  describe("PUT /api/workouts/plans/:id", () => {
+    it("should update a workout plan", async () => {
+      const response = await request(app)
+        .put(`/api/workouts/plans/${workoutPlanId}`)
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({
+          name: "Updated Full Body Workout",
+          description: "An updated comprehensive full body workout plan",
+        });
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body.name).toBe("Updated Full Body Workout");
+    });
+
+    it("should add an exercise to a workout plan", async () => {
+      const response = await request(app).post(
+        `/api/workouts/plans/${workoutPlanId}`
+      );
+    });
+  });
 });

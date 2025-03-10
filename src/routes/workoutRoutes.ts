@@ -11,9 +11,13 @@ router.put("/plans/:id", authenticate, workoutController.updateWorkoutPlan);
 router.delete("/plans/:id", authenticate, workoutController.deleteWorkoutPlan);
 
 // Workout exercise routes
-router.post("/exercises", authenticate, workoutController.addExerciseToWorkout);
+router.post(
+  "/plans/:workoutPlanId/exercises",
+  authenticate,
+  workoutController.addExerciseToWorkout
+);
 router.put(
-  "/exercises/:id",
+  "/plans/:workoutPlanId/exercises/:id",
   authenticate,
   workoutController.updateWorkoutExercise
 );
