@@ -120,9 +120,30 @@ describe("Workout Plans Controller", () => {
     });
 
     it("should add an exercise to a workout plan", async () => {
-      const response = await request(app).post(
-        `/api/workouts/plans/${workoutPlanId}`
-      );
+      const response = await request(app)
+        .post(`/api/workouts/plans/${workoutPlanId}/exercises`)
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({
+          exercise_id: exerciseId,
+          sets: 4,
+          reps: 10,
+          weight: 55,
+          notes: "High Intensity",
+          order_index: 2,
+        });
+
+      expect(response.statusCode).toBe(201);
+      expect(response.body).toHaveProperty("id");
+    });
+  });
+
+  describe("DELETE /api/workouts/plans/:id", () => {
+    it("should delete a workout plan", async () => {
+      const response = await request(app)
+        .delete(`/api/workouts/plans/${workoutPlanId}`)
+        .set("Authorization", `Bearer ${authToken}`);
+
+      expect(response.statusCode).toBe(204);
     });
   });
 });
